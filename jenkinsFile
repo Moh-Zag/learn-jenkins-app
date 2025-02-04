@@ -1,13 +1,15 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent { docker { image 'node:18-alpine'
+    // agent any
+    
+    stages {
+        stage('build') {
+            agent { docker { image 'node:18-alpine'
     
            label 'docker-on-vas'
     }
     
     }
-    stages {
-        stage('build') {
             steps {
                 sh '''
                     ls -la
@@ -20,4 +22,19 @@ pipeline {
             }
         }
     }
+            stage('Test') {
+                agent { docker { image 'node:18-alpine'
+                
+                    label 'docker-on-vas'
+                }
+    
+    }
+
+            steps {
+                sh '''
+                    test -f build/index.html
+                    npm test
+                '''
+            }
+        }
 }
