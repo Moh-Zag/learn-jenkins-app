@@ -1,10 +1,18 @@
+/* Requires the Docker Pipeline plugin */
 pipeline {
-    agent any
-
+    agent { docker { image 'node:current-alpine3.20'
+    
+           label 'docker-on-vas'
+    }
+    
+    }
     stages {
-        stage('Hello') {
+        stage('build') {
             steps {
-                echo 'Hello World'
+                sh '''
+                npm --version
+                node --version
+                '''
             }
         }
     }
