@@ -54,6 +54,7 @@ pipeline {
                     sleep 10
                     npx playwright test
                 '''
+                junit 'test-results/junit.xml'                
             }
         }
 }
