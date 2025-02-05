@@ -1,15 +1,14 @@
-/* Requires the Docker Pipeline plugin */
 pipeline {
     agent any
-    
+
     stages {
-        stage('build') {
-            agent { docker { image 'node:18-alpine'
-            // reuseNode true
-           label 'docker-on-vas'
-    }
-    
-    }
+        stage('Build') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
             steps {
                 sh '''
                     ls -la
@@ -22,13 +21,13 @@ pipeline {
             }
         }
 
-            stage('Test') {
-                agent { docker { image 'node:18-alpine'
-                // reuseNode true
-                label 'docker-on-vas'
+        stage('Test') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
                 }
-    
-    }
+            }
 
             steps {
                 sh '''
@@ -37,7 +36,8 @@ pipeline {
                 '''
             }
         }
-}
+    }
+
     post {
         always {
             junit 'test-results/junit.xml'
