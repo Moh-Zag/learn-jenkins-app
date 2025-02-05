@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('build') {
             agent { docker { image 'node:18-alpine'
-    
+            reuseNode true
            label 'docker-on-vas'
     }
     
@@ -24,8 +24,8 @@ pipeline {
 
             stage('Test') {
                 agent { docker { image 'node:18-alpine'
-                
-                    label 'docker-on-vas'
+                reuseNode true
+                label 'docker-on-vas'
                 }
     
     }
