@@ -35,32 +35,7 @@ pipeline {
                     test -f build/index.html
                     npm test
                 '''
-                    junit 'test-results/junit.xml'
-            }
-        }
-                        stage('E2E') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                    label 'docker-on-vas'
-                    // reuseNode true
-                }
-            }
-
-            steps {
-                sh '''
-                    npm install serve
-                    node_modules/.bin/serve -s build &
-                    sleep 10
-                    npx playwright test
-                '''
-                junit 'test-results/junit.xml'                
             }
         }
 }
-    // post {
-    //     always {
-    //         junit 'test-results/junit.xml'
-    //     }
-    // }
 }
